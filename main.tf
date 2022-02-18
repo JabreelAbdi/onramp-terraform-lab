@@ -49,17 +49,17 @@ resource "aws_route_table_association" "public_rt_association" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-resource "aws_security_group" "terraform_icmp" {
-  name        = "allow_icmp"
+resource "aws_security_group" "terraform_icmp_sg" {
+  name        = "allow icmp"
   description = "Allow icmp inbound traffic"
   vpc_id      = aws_vpc.terraform_vpc.id
 
   ingress {
-    description = "icmp from VPC"
+    description = "icmp from my ip"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["79.67.176.243/32"]
   }
 
   egress {
