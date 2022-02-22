@@ -7,7 +7,7 @@ resource "aws_vpc" "terraform_vpc" {
 
 resource "aws_subnet" "public_subnet" {
   vpc_id     = aws_vpc.terraform_vpc.id
-  cidr_block = "192.168.0.0/17"
+  cidr_block = var.public_subnet_cidr
 
   tags = {
     Name = "public_subnet"
@@ -16,7 +16,7 @@ resource "aws_subnet" "public_subnet" {
 
 resource "aws_subnet" "private_subnet" {
   vpc_id     = aws_vpc.terraform_vpc.id
-  cidr_block = "192.168.128.0/17"
+  cidr_block = var.private_subnet_cidr
 
   tags = {
     Name = "private_subnet"
@@ -59,7 +59,7 @@ resource "aws_security_group" "terraform_icmp_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["79.67.176.243/32"]
+    cidr_blocks = var.icmp_whitelist
   }
 
   egress {
