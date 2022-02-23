@@ -1,76 +1,37 @@
-resource "aws_vpc" "terraform_vpc" {
-  cidr_block = "192.168.0.0/16"
-  tags = {
-    Name = "terrafrom lab vpc"
-  }
-}
+# module "first_vpc_module" {
+#   source = "./modules/vpc"
 
-resource "aws_subnet" "public_subnet" {
-  vpc_id     = aws_vpc.terraform_vpc.id
-  cidr_block = var.public_subnet_cidr
+#   icmp_whitelist      = ["0.0.0.0/32"]
+#   public_subnet_cidr  = "192.168.0.0/18"
+#   private_subnet_cidr = "192.168.64.0/18"
+#   name_of_vpc         = "test module vpc"
+#   tags                = "development"
+# }
 
-  tags = {
-    Name = "public_subnet"
-  }
-}
+# module "first_ec2_module" {
+#   source = "./modules/ec2"
 
-resource "aws_subnet" "private_subnet" {
-  vpc_id     = aws_vpc.terraform_vpc.id
-  cidr_block = var.private_subnet_cidr
+#   ami           = "ami-0bf84c42e04519c85"
+#   instance_type = "t2.micro"
+#   key_name      = "ta-lab-ansible-key"
+#   tags          = "dev ec2 module"
+# }
 
-  tags = {
-    Name = "private_subnet"
-  }
-}
+# module "second_vpc_module" {
+#   source = "./modules/vpc"
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.terraform_vpc.id
+#   icmp_whitelist      = ["0.0.0.0/32"]
+#   public_subnet_cidr  = "192.168.0.0/18"
+#   private_subnet_cidr = "192.168.64.0/18"
+#   name_of_vpc         = "test module vpc"
+#   tags                = "production"
+# }
 
-  tags = {
-    Name = "terraform_lab_igw"
-  }
-}
+# module "second_ec2_module" {
+#   source = "./modules/ec2"
 
-resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.terraform_vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-
-  tags = {
-    Name = "public RT"
-  }
-}
-
-resource "aws_route_table_association" "public_rt_association" {
-  subnet_id      = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.public_rt.id
-}
-
-resource "aws_security_group" "terraform_icmp_sg" {
-  name        = "allow icmp"
-  description = "Allow icmp inbound traffic"
-  vpc_id      = aws_vpc.terraform_vpc.id
-
-  ingress {
-    description = "icmp from my ip"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = var.icmp_whitelist
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    Name = "allow_icmp"
-  }
-}
+#   ami           = "ami-0bf84c42e04519c85"
+#   instance_type = "t2.micro"
+#   key_name      = "ta-lab-ansible-key"
+#   tags          = "test ec2 module"
+# }

@@ -10,10 +10,15 @@ variable "private_subnet_cidr" {
 
 variable "icmp_whitelist" {
   description = "list of IP addresses allowed to ICMP to instance"
-  type        = list
+  type        = list(any)
 }
 
-variable "key_name" {
-  description = "name of the ssh key that was created on the console"
-  type        = string 
+variable "name_of_vpc" {
+  description = "variable to give your vpc its unique name in the account"
+  type        = string
+}
+
+variable "tags" {
+  description = "tags for all resources from this module"
+  
 }
