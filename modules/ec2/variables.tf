@@ -17,3 +17,16 @@ variable "tags" {
   description = "Tag for EC2 instance"
   type        = string
 }
+
+variable "icmp_whitelist" {
+  description = "list of IP addresses allowed to ICMP to instance"
+  type        = list(any)
+}
+
+variable "vpc_id" {
+  
+}
+
+variable "subnet_id" {
+  
+}

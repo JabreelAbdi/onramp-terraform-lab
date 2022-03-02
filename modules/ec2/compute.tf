@@ -1,26 +1,20 @@
 resource "aws_instance" "terraform_labs_ec2" {
   ami                         = var.ami
   instance_type               = var.instance_type
-  subnet_id                   = aws_subnet.public_subnet.id
+  subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.terraform_icmp_sg.id]
   key_name                    = var.key_name
   associate_public_ip_address = true
-  count                       = 2
 
   tags = {
     Name = var.tags
   }
 }
 
-output "public_ip" {
-  value       = aws_instance.terraform_labs_ec2[0].public_ip
-  description = "public ip of the instance"
-}
-
 resource "aws_security_group" "terraform_icmp_sg" {
   name        = "allow icmp"
   description = "Allow icmp inbound traffic"
-  vpc_id      = aws_vpc.terraform_vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "icmp from whitelist"
