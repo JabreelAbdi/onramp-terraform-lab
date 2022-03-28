@@ -29,5 +29,5 @@ variable "name_of_vpc" {
 
 variable "tags" {
   description = "tags for all resources from this module"
-  
+
 }
