@@ -5,6 +5,10 @@ on:
     - main
 
 
+defaults:
+  run:
+    working-directory: ./modules/vpc
+
 jobs:
   terraform:
     name: 'Terraform'
